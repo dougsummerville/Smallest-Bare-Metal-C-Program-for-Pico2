@@ -7,7 +7,8 @@ MEMORY
 SECTIONS
 {
 	.text : {
-		*(.startup*)
+		*(.vector_table*)
+		*(.boot_block*)
 		*(.text*)
 	} > ROM
 }

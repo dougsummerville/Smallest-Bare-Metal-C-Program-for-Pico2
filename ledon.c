@@ -22,15 +22,13 @@
  * IN THE SOFTWARE.
  ****************************************************************************/
 
-//Order is important since the linker will place sections consecttively into flash
-
 //Declare the first function, needed to refer to it in the vector table
 void entry_point( void ); 
 
 //Minimum vector table.  Contains initial SP and entry point.
 //This is assigned to the .text section to force the linker to 
 //treat it as code instead of data
-void * const  __attribute__((section(".startup"))) vector_table[] =  
+void * const  __attribute__((section(".vector_table"))) vector_table[] =  
 {
 	(void *)0x20082000, // Initial stack pointer
 	&entry_point	    // Reset handler
@@ -39,7 +37,7 @@ void * const  __attribute__((section(".startup"))) vector_table[] =
 //RP2 uses boot blocks to identify valid bootable code in flash. 
 //The zero pointer allows us to skip the end block to keep things
 //simple.a See Pico SDK for detail.
-unsigned const __attribute__((section(".startup"))) bootblock[] =  
+unsigned const __attribute__((section(".boot_block"))) bootblock[] =  
 {
 	0xFFFFDED3, //magic number
 	0x10210142, //flags
@@ -58,7 +56,12 @@ void entry_point( void )
 	*(unsigned volatile *)0x400280CC = 5;
 	//Enable GPIO25 and Set to 1
 	*(unsigned volatile *)0xd0000030 |= (1<<25);
-	*(unsigned volatile *)0xd0000010 |= (1<<25);
-	//Hange out here forever
-	while(1);
+	//Run forever
+	while(1) {
+		//Toggle LED
+		*(unsigned volatile *)0xd0000028 |= (1<<25);
+		//Delay
+		for( volatile unsigned int i=0; i<120000; i++ )
+			continue;
+	}
 }

@@ -1,6 +1,6 @@
-ledon.uf2: ledon.elf
+flashled.uf2: flashled.elf
 	python3 tools/elf2uf2.py $<
-ledon.elf: ledon.c
-	arm-none-eabi-gcc -Os  -std=c99 -ffreestanding -nostartfiles -mcpu=cortex-m33 -T pico2.ld $< -o $@
+flashled.elf: flashled.c
+	arm-none-eabi-gcc -Os  -std=c99 -ffreestanding -nostartfiles -mcpu=cortex-m33 -T pico2.ld flashled.c -o flashled.elf
 clean:
-	-rm ledon.uf2 ledon.elf
+	-rm flashled.uf2 flashled.elf

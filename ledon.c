@@ -48,8 +48,8 @@ unsigned const __attribute__((section(".boot_block"))) bootblock[] =
 void entry_point( void )
 {
 	//Release IO_BANK and PADS resets
-	*(unsigned volatile *)0x40020000 &= ((1<<6) | (1<<9));
-	while((*(unsigned volatile *)0x40020008 & ((1<<6) | (1<<9)) ) != ((1<<6) | (1<<9)) )
+	*(unsigned volatile *)0x40020000 &= 0xFFFFFDBF;
+	while((*(unsigned volatile *)0x40020008 & 0x00000240) != 0x00000240)
 		continue;
 	//Configure PAD25 and PIN25
 	*(unsigned volatile *)0x40038068 = 0;

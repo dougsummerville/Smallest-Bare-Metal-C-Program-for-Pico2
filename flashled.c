@@ -59,7 +59,7 @@ void entry_point( void )
 	//Run forever
 	while(1) {
 		//Toggle LED
-		*(unsigned volatile *)0xd0000028 |= 0x02000000;
+		*(unsigned volatile *)0xd0000028 = 0x02000000;
 		//Delay
 		for( volatile unsigned int i=0; i<120000; i++ )
 			continue;
